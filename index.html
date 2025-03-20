@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>External Owner Info</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+            position: relative;
+        }
+        th {
+            background: #007bff;
+            color: white;
+        }
+        .copy-btn {
+            font-size: 12px;
+            padding: 4px 8px;
+            border: none;
+            background: #28a745;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+            position: absolute;
+            right: 8px;  /* Align to the right */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .copy-btn:hover {
+            background: #218838;
+        }
+        .data-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            padding-right: 30px; /* Space for the button */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>External Owner Info</h2>
+        <input type="text" id="searchBox" placeholder="Search by Name, Organization, or Phone Number..." onkeyup="searchTable()">
+        <table>
+            <thead>
+                <tr>
+                    <th>External Owner Name</th>
+                    <th>TIN</th>
+                    <th>Inbox</th>
+                    <th>Phone Number</th>
+                    <th>Organization</th>
+                </tr>
+            </thead>
+            <tbody id="dataTable"></tbody>
+        </table>
+    </div>
+
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch('data.json');
+                const data = await response.json();
+                renderTable(data);
+            } catch (error) {
+                console.error("Error loading data:", error);
+            }
+        }
+
+        function renderTable(data) {
+            const tableBody = document.getElementById("dataTable");
+            tableBody.innerHTML = ""; // Clear previous data
+            data.forEach(item => {
+                let row = `<tr>
+                    <td><div class="data-container">${item["External Owner Name"]} <button class="copy-btn" onclick="copyToClipboard('${item["External Owner Name"]}')">📋</button></div></td>
+                    <td><div class="data-container">${item["TIN"]} <button class="copy-btn" onclick="copyToClipboard('${item["TIN"]}')">📋</button></div></td>
+                    <td><div class="data-container">${item["Inbox"]} <button class="copy-btn" onclick="copyToClipboard('${item["Inbox"]}')">📋</button></div></td>
+                    <td><div class="data-container">${item["Phone Number"]} <button class="copy-btn" onclick="copyToClipboard('${item["Phone Number"]}')">📋</button></div></td>
+                    <td><div class="data-container">${item["Organization"]} <button class="copy-btn" onclick="copyToClipboard('${item["Organization"]}')">📋</button></div></td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Copied: " + text);
+            }).catch(err => {
+                console.error("Could not copy text: ", err);
+            });
+        }
+
+        function searchTable() {
+            let input = document.getElementById("searchBox").value.toLowerCase();
+            let rows = document.querySelectorAll("#dataTable tr");
+            rows.forEach(row => {
+                let text = row.innerText.toLowerCase();
+                row.style.display = text.includes(input) ? "" : "none";
+            });
+        }
+
+        fetchData();
+    </script>
+
+</body>
+</html>
+
+
