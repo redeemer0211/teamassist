@@ -19,7 +19,8 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow-x: auto;
         }
-        input {
+        .hidden { display: none; }
+        select, input {
             width: 80%;
             padding: 10px;
             margin-bottom: 10px;
@@ -35,50 +36,30 @@
             padding: 12px;
             border: 1px solid #ddd;
             text-align: left;
-            position: relative;
         }
-        th {
-            background: #007bff;
-            color: white;
-        }
-        .copy-btn {
-            font-size: 12px;
-            padding: 4px 8px;
-            border: none;
-            background: #28a745;
-            color: white;
-            cursor: pointer;
-            border-radius: 4px;
-            position: absolute;
-            right: 8px;  /* Align to the right */
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        .copy-btn:hover {
-            background: #218838;
-        }
-        .data-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            padding-right: 30px; /* Space for the button */
-        }
+        th { background: #007bff; color: white; }
     </style>
 </head>
 <body>
-
     <div class="container">
         <h2>External Owner Info</h2>
-        <input type="text" id="searchBox" placeholder="Search by Name, Organization, or Phone Number..." onkeyup="searchTable()">
-        <table>
+        <select id="organizationDropdown" onchange="filterByOrganization()">
+            <option value="">Select an Organization</option>
+        </select>
+        <input type="text" id="searchBox" placeholder="Search..." onkeyup="searchTable()" disabled>
+        
+        <div id="organizationProfile" class="hidden">
+            <h3>Organization Profile</h3>
+            <p id="orgDetails"></p>
+        </div>
+        
+        <table id="ownerTable" class="hidden">
             <thead>
                 <tr>
                     <th>External Owner Name</th>
                     <th>TIN</th>
                     <th>Inbox</th>
                     <th>Phone Number</th>
-                    <th>Organization</th>
                 </tr>
             </thead>
             <tbody id="dataTable"></tbody>
@@ -86,36 +67,58 @@
     </div>
 
     <script>
+        let ownerData = [];
         async function fetchData() {
             try {
                 const response = await fetch('data.json');
-                const data = await response.json();
-                renderTable(data);
+                ownerData = await response.json();
+                populateDropdown();
             } catch (error) {
                 console.error("Error loading data:", error);
             }
         }
 
-        function renderTable(data) {
-            const tableBody = document.getElementById("dataTable");
-            tableBody.innerHTML = ""; // Clear previous data
-            data.forEach(item => {
-                let row = `<tr>
-                    <td><div class="data-container">${item["External Owner Name"]} <button class="copy-btn" onclick="copyToClipboard('${item["External Owner Name"]}')">📋</button></div></td>
-                    <td><div class="data-container">${item["TIN"]} <button class="copy-btn" onclick="copyToClipboard('${item["TIN"]}')">📋</button></div></td>
-                    <td><div class="data-container">${item["Inbox"]} <button class="copy-btn" onclick="copyToClipboard('${item["Inbox"]}')">📋</button></div></td>
-                    <td><div class="data-container">${item["Phone Number"]} <button class="copy-btn" onclick="copyToClipboard('${item["Phone Number"]}')">📋</button></div></td>
-                    <td><div class="data-container">${item["Organization"]} <button class="copy-btn" onclick="copyToClipboard('${item["Organization"]}')">📋</button></div></td>
-                </tr>`;
-                tableBody.innerHTML += row;
+        function populateDropdown() {
+            const orgSet = new Set(ownerData.map(item => item.Organization));
+            const dropdown = document.getElementById("organizationDropdown");
+            orgSet.forEach(org => {
+                let option = document.createElement("option");
+                option.value = org;
+                option.textContent = org;
+                dropdown.appendChild(option);
             });
         }
 
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert("Copied: " + text);
-            }).catch(err => {
-                console.error("Could not copy text: ", err);
+        function filterByOrganization() {
+            let selectedOrg = document.getElementById("organizationDropdown").value;
+            let profile = document.getElementById("organizationProfile");
+            let table = document.getElementById("ownerTable");
+            let searchBox = document.getElementById("searchBox");
+
+            if (selectedOrg) {
+                profile.classList.remove("hidden");
+                table.classList.remove("hidden");
+                searchBox.disabled = false;
+                document.getElementById("orgDetails").textContent = `Selected Organization: ${selectedOrg}`;
+                renderTable(ownerData.filter(item => item.Organization === selectedOrg));
+            } else {
+                profile.classList.add("hidden");
+                table.classList.add("hidden");
+                searchBox.disabled = true;
+            }
+        }
+
+        function renderTable(data) {
+            const tableBody = document.getElementById("dataTable");
+            tableBody.innerHTML = "";
+            data.forEach(item => {
+                let row = `<tr>
+                    <td>${item["External Owner Name"]}</td>
+                    <td>${item["TIN"]}</td>
+                    <td>${item["Inbox"]}</td>
+                    <td>${item["Phone Number"]}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
             });
         }
 
@@ -130,7 +133,6 @@
 
         fetchData();
     </script>
-
 </body>
 </html>
 
