@@ -19,14 +19,38 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow-x: auto;
         }
-        .hidden { display: none; }
-        select, input {
-            width: 80%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+        .hidden { 
+            display: none;
+         }
+
+         .select {
+            margin-top: 2px;
+            margin-bottom: 20px;
+         }
+        .organizationDropdown {
+    width: 30%; /* Adjust dropdown width */
+    height: 40px; /* Adjust height */
+    padding: 10px;
+    margin-left: -20%;
+    margin-right: 25%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: inline-block;
+    align-items: left;
+            
+}
+
+.searchBox {
+    width: 40%; /* Adjust search bar width */
+    height: 20px; /* Keep height consistent */
+    padding: 10px;
+    margin-right: -20%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: inline-block
+}
+
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -36,20 +60,38 @@
             padding: 12px;
             border: 1px solid #ddd;
             text-align: left;
+            position: relative;
         }
         th { background: #007bff; color: white; }
+        .copy-icon {
+            cursor: pointer;
+            margin-left: 5px;
+            font-size: 14px;
+            color: #007bff;
+        }
+        .pagination {
+            margin-top: 10px;
+        }
+        .pagination button {
+            padding: 5px 10px;
+            margin: 2px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>External Owner Info</h2>
-        <select id="organizationDropdown" onchange="filterByOrganization()">
+    </div>
+    <div class="container">
+        <select id="organizationDropdown" class="organizationDropdown" onchange="filterByOrganization()">
             <option value="">Select an Organization</option>
         </select>
-        <input type="text" id="searchBox" placeholder="Search..." onkeyup="searchTable()" disabled>
-        
-        <div id="organizationProfile" class="hidden">
-            <h3>Organization Profile</h3>
+        <input type="text" id="searchBox" class="searchBox" placeholder="Search..." onkeyup="searchTable()" disabled>
+    </div>
+    <div class="container">
+
+        <div id="organizationProfile" class="select">
             <p id="orgDetails"></p>
         </div>
         
@@ -64,10 +106,12 @@
             </thead>
             <tbody id="dataTable"></tbody>
         </table>
+        <div class="pagination hidden" id="pagination"></div>
     </div>
 
     <script>
-        let ownerData = [];
+        let ownerData = [], filteredData = [], currentPage = 1, rowsPerPage = 15;
+
         async function fetchData() {
             try {
                 const response = await fetch('data.json');
@@ -94,41 +138,68 @@
             let profile = document.getElementById("organizationProfile");
             let table = document.getElementById("ownerTable");
             let searchBox = document.getElementById("searchBox");
+            let pagination = document.getElementById("pagination");
 
             if (selectedOrg) {
                 profile.classList.remove("hidden");
                 table.classList.remove("hidden");
                 searchBox.disabled = false;
+                pagination.classList.remove("hidden");
                 document.getElementById("orgDetails").textContent = `Selected Organization: ${selectedOrg}`;
-                renderTable(ownerData.filter(item => item.Organization === selectedOrg));
+                filteredData = ownerData.filter(item => item.Organization === selectedOrg);
+                currentPage = 1;
+                renderTable();
             } else {
                 profile.classList.add("hidden");
                 table.classList.add("hidden");
                 searchBox.disabled = true;
+                pagination.classList.add("hidden");
             }
         }
 
-        function renderTable(data) {
+        function renderTable() {
             const tableBody = document.getElementById("dataTable");
             tableBody.innerHTML = "";
-            data.forEach(item => {
+            let start = (currentPage - 1) * rowsPerPage;
+            let end = start + rowsPerPage;
+            let paginatedData = filteredData.slice(start, end);
+
+            paginatedData.forEach(item => {
                 let row = `<tr>
-                    <td>${item["External Owner Name"]}</td>
-                    <td>${item["TIN"]}</td>
-                    <td>${item["Inbox"]}</td>
-                    <td>${item["Phone Number"]}</td>
+                    <td>${item["External Owner Name"]} <span class='copy-icon' onclick='copyText("${item["External Owner Name"]}")'>&#128203;</span></td>
+                    <td>${item["TIN"]} <span class='copy-icon' onclick='copyText("${item["TIN"]}")'>&#128203;</span></td>
+                    <td>${item["Inbox"]} <span class='copy-icon' onclick='copyText("${item["Inbox"]}")'>&#128203;</span></td>
+                    <td>${item["Phone Number"]} <span class='copy-icon' onclick='copyText("${item["Phone Number"]}")'>&#128203;</span></td>
                 </tr>`;
                 tableBody.innerHTML += row;
             });
+            renderPagination();
+        }
+
+        function renderPagination() {
+            let pagination = document.getElementById("pagination");
+            pagination.innerHTML = "";
+            let totalPages = Math.ceil(filteredData.length / rowsPerPage);
+
+            for (let i = 1; i <= totalPages; i++) {
+                let button = document.createElement("button");
+                button.textContent = i;
+                button.onclick = () => { currentPage = i; renderTable(); };
+                if (i === currentPage) button.style.fontWeight = "bold";
+                pagination.appendChild(button);
+            }
         }
 
         function searchTable() {
             let input = document.getElementById("searchBox").value.toLowerCase();
-            let rows = document.querySelectorAll("#dataTable tr");
-            rows.forEach(row => {
-                let text = row.innerText.toLowerCase();
-                row.style.display = text.includes(input) ? "" : "none";
-            });
+            filteredData = ownerData.filter(item => item.Organization === document.getElementById("organizationDropdown").value &&
+                Object.values(item).some(val => val.toString().toLowerCase().includes(input)));
+            currentPage = 1;
+            renderTable();
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => alert("Copied: " + text));
         }
 
         fetchData();
