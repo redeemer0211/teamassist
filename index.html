@@ -19,6 +19,17 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow-x: auto;
         }
+        .header {
+            width: 90%;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+            background-color: #d0d1f1;
+            color: white;
+        }
         .hidden { 
             display: none;
          }
@@ -32,7 +43,7 @@
     height: 40px; /* Adjust height */
     padding: 10px;
     margin-left: -20%;
-    margin-right: 25%;
+    margin-right: 15%;
     border: 1px solid #ccc;
     border-radius: 5px;
     display: inline-block;
@@ -41,7 +52,7 @@
 }
 
 .searchBox {
-    width: 40%; /* Adjust search bar width */
+    width: 50%; /* Adjust search bar width */
     height: 20px; /* Keep height consistent */
     padding: 10px;
     margin-right: -20%;
@@ -62,13 +73,8 @@
             text-align: left;
             position: relative;
         }
-        th { background: #007bff; color: white; }
-        .copy-icon {
-            cursor: pointer;
-            margin-left: 5px;
-            font-size: 14px;
-            color: #007bff;
-        }
+        th { background: #d0d1f1; color: white; }
+
         .pagination {
             margin-top: 10px;
         }
@@ -80,7 +86,7 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="header">
         <h2>External Owner Info</h2>
     </div>
     <div class="container">
@@ -102,6 +108,7 @@
                     <th>TIN</th>
                     <th>Inbox</th>
                     <th>Phone Number</th>
+                    <th>Mailing Address</th>
                 </tr>
             </thead>
             <tbody id="dataTable"></tbody>
@@ -166,10 +173,14 @@
 
             paginatedData.forEach(item => {
                 let row = `<tr>
-                    <td>${item["External Owner Name"]} <span class='copy-icon' onclick='copyText("${item["External Owner Name"]}")'>&#128203;</span></td>
+                    <td><a href="external-owner.html?name=${encodeURIComponent(item["External Owner Name"])}">${item["External Owner Name"]}</a></td>
                     <td>${item["TIN"]} <span class='copy-icon' onclick='copyText("${item["TIN"]}")'>&#128203;</span></td>
                     <td>${item["Inbox"]} <span class='copy-icon' onclick='copyText("${item["Inbox"]}")'>&#128203;</span></td>
                     <td>${item["Phone Number"]} <span class='copy-icon' onclick='copyText("${item["Phone Number"]}")'>&#128203;</span></td>
+                    <td>
+                        2261 Market St STE 22721, San Francisco, CA 94114 
+                        <span class="copy-icon" onclick='copyText("2261 Market St STE 22721, San Francisco, CA 94114")'>&#128203;</span>
+                    </td>
                 </tr>`;
                 tableBody.innerHTML += row;
             });

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>External Owner Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .back-link {
+            display: block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #007bff;
+            font-size: 18px;
+        }
+        .profile {
+            margin-left: -10px;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>External Owner Profile</h2>
+        </div>
+<div class="container">
+        <div class="profile">
+        <p><strong>Name:</strong><span id="ownerName"></span></p> 
+        <p><strong>TIN:</strong><span id="ownerTIN"></span></p>
+        <p><strong>Inbox:</strong><span id="ownerInbox"></span></p>
+        <p><strong>Phone Number:</strong><span id="ownerPhone"></span></p>
+        <p><strong>Mailing Address:<p>2261 Market St STE 22721, San Francisco, CA 94114</p></strong> 
+        <a href="index.html" class="back-link">← Back to List</a>
+        </div>
+
+    <script>
+        // Extract the external owner name from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const ownerName = urlParams.get("name");
+
+        document.getElementById("ownerName").textContent = ownerName;
+
+        // Fetch data from JSON and filter the specific external owner
+        async function fetchOwnerData() {
+            try {
+                const response = await fetch("data.json");
+                const data = await response.json();
+
+                const ownerData = data.find(item => item["External Owner Name"] === ownerName);
+
+                if (ownerData) {
+                    document.getElementById("ownerTIN").textContent = ownerData["TIN"];
+                    document.getElementById("ownerInbox").textContent = ownerData["Inbox"];
+                    document.getElementById("ownerPhone").textContent = ownerData["Phone Number"];
+                } else {
+                    document.querySelector(".container").innerHTML = "<h2>Owner Not Found</h2>";
+                }
+            } catch (error) {
+                console.error("Error loading owner data:", error);
+            }
+        }
+
+        fetchOwnerData();
+    </script>
+</body>
+</html>
