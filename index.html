@@ -83,6 +83,17 @@
             margin: 2px;
             cursor: pointer;
         }
+
+        .copy-icon {
+    font-size: 20px; /* Size of the icon */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transition for changes */
+}
+
+.copy-icon:hover {
+    color: #007bff; /* Color change on hover */
+}
+
     </style>
 </head>
 <body>
@@ -93,7 +104,9 @@
         <select id="organizationDropdown" class="organizationDropdown" onchange="filterByOrganization()">
             <option value="" disabled selected>Select an Organization</option>
         </select>
-        <input type="text" id="searchBox" class="searchBox" placeholder="Search..." onkeyup="searchTable()" disabled>
+        <!-- Input search box -->
+<input type="text" id="searchBox" class="searchBox" placeholder="Search..." onkeyup="searchTable()">
+
     </div>
     <div class="container">
 
@@ -102,7 +115,7 @@
         </div>
         <div class="container flex items-center space-x-2">
             <span id="mailingAddress">Mailing Address: 2261 Market St STE 22721, San Francisco, CA 94114</span>
-            <span class='copy-icon' onclick='copyText("2261 Market St STE 22721, San Francisco, CA 94114")'>&#128203;</span>
+            <span class='copy-icon' onclick='copyText("2261 Market St STE 22721, San Francisco, CA 94114", this)'>&#128203;</span>
         </div>
         
         <table id="ownerTable" class="hidden">
@@ -171,14 +184,14 @@
             paginatedData.forEach(item => {
                 let row = `<tr>
                     <td><a href="external-owner.html?name=${encodeURIComponent(item["External Owner Name"])}}">${item["External Owner Name"]}</a></td>
-                    <td>${item["TIN"]} <span class='copy-icon' onclick='copyText("${item["TIN"]}")'>&#128203;</span></td>
+                    <td>${item["TIN"]} <span class='copy-icon' onclick='copyText("${item["TIN"]}", this)'>&#128203;</span></td>
                     <td>
     <a href="https://outlook.office.com/mail/${encodeURIComponent(item["Inbox"])}" target="_blank">
         ${item["Inbox"]}
     </a>
-    <span class='copy-icon' onclick='copyText("${item["Inbox"]}")'>&#128203;</span>
+    <span class='copy-icon' onclick='copyText("${item["Inbox"]}", this)'>&#128203;</span>
 </td>
-                    <td>${item["Phone Number"]} <span class='copy-icon' onclick='copyText("${item["Phone Number"]}")'>&#128203;</span></td>
+                    <td>${item["Phone Number"]} <span class='copy-icon' onclick='copyText("${item["Phone Number", this]}", this)'>&#128203;</span></td>
                 </tr>`;
                 tableBody.innerHTML += row;
             });
@@ -221,9 +234,23 @@
     renderTable();
 }
     
-        function copyText(text) {
-            navigator.clipboard.writeText(text).then("");
-        }
+function copyText(text, iconElement) {
+    navigator.clipboard.writeText(text).then(() => {
+        // Change the icon to the checkmark
+        iconElement.innerHTML = "&#10003;"; // Checkmark icon (✔)
+        
+        // Optionally, change the style (e.g., color)
+        iconElement.style.color = "green"; // Green color for success
+
+        // Reset to clipboard icon after 2 seconds
+        setTimeout(() => {
+            iconElement.innerHTML = "&#128203;"; // Clipboard icon (📋)
+            iconElement.style.color = ""; // Reset color
+        }, 10000); // Reset after 2 seconds
+    }).catch(err => {
+        console.error("Failed to copy text: ", err);
+    });
+}
     
         fetchData();
     </script>
