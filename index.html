@@ -91,7 +91,7 @@
     </div>
     <div class="container">
         <select id="organizationDropdown" class="organizationDropdown" onchange="filterByOrganization()">
-            <option value="">Select an Organization</option>
+            <option value="" disabled selected>Select an Organization</option>
         </select>
         <input type="text" id="searchBox" class="searchBox" placeholder="Search..." onkeyup="searchTable()" disabled>
     </div>
@@ -99,6 +99,10 @@
 
         <div id="organizationProfile" class="select">
             <p id="orgDetails"></p>
+        </div>
+        <div class="container flex items-center space-x-2">
+            <span id="mailingAddress">Mailing Address: 2261 Market St STE 22721, San Francisco, CA 94114</span>
+            <span class='copy-icon' onclick='copyText("2261 Market St STE 22721, San Francisco, CA 94114")'>&#128203;</span>
         </div>
         
         <table id="ownerTable" class="hidden">
@@ -108,7 +112,6 @@
                     <th>TIN</th>
                     <th>Inbox</th>
                     <th>Phone Number</th>
-                    <th>Mailing Address</th>
                 </tr>
             </thead>
             <tbody id="dataTable"></tbody>
@@ -118,17 +121,19 @@
 
     <script>
         let ownerData = [], filteredData = [], currentPage = 1, rowsPerPage = 15;
-
+    
         async function fetchData() {
             try {
                 const response = await fetch('data.json');
                 ownerData = await response.json();
                 populateDropdown();
+                filteredData = [...ownerData]; // Default: show all data
+                renderTable();
             } catch (error) {
                 console.error("Error loading data:", error);
             }
         }
-
+    
         function populateDropdown() {
             const orgSet = new Set(ownerData.map(item => item.Organization));
             const dropdown = document.getElementById("organizationDropdown");
@@ -139,59 +144,52 @@
                 dropdown.appendChild(option);
             });
         }
-
+    
         function filterByOrganization() {
             let selectedOrg = document.getElementById("organizationDropdown").value;
             let profile = document.getElementById("organizationProfile");
             let table = document.getElementById("ownerTable");
             let searchBox = document.getElementById("searchBox");
             let pagination = document.getElementById("pagination");
-
-            if (selectedOrg) {
-                profile.classList.remove("hidden");
-                table.classList.remove("hidden");
-                searchBox.disabled = false;
-                pagination.classList.remove("hidden");
-                document.getElementById("orgDetails").textContent = `Selected Organization: ${selectedOrg}`;
-                filteredData = ownerData.filter(item => item.Organization === selectedOrg);
-                currentPage = 1;
-                renderTable();
-            } else {
-                profile.classList.add("hidden");
-                table.classList.add("hidden");
-                searchBox.disabled = true;
-                pagination.classList.add("hidden");
-            }
+    
+            profile.classList.toggle("hidden", !selectedOrg);
+            table.classList.remove("hidden");
+            searchBox.disabled = false;
+            pagination.classList.remove("hidden");
+            document.getElementById("orgDetails").textContent = "";
+            
+            searchTable(); // Apply search filter if any input exists
         }
-
+    
         function renderTable() {
             const tableBody = document.getElementById("dataTable");
             tableBody.innerHTML = "";
             let start = (currentPage - 1) * rowsPerPage;
             let end = start + rowsPerPage;
             let paginatedData = filteredData.slice(start, end);
-
+    
             paginatedData.forEach(item => {
                 let row = `<tr>
-                    <td><a href="external-owner.html?name=${encodeURIComponent(item["External Owner Name"])}">${item["External Owner Name"]}</a></td>
+                    <td><a href="external-owner.html?name=${encodeURIComponent(item["External Owner Name"])}}">${item["External Owner Name"]}</a></td>
                     <td>${item["TIN"]} <span class='copy-icon' onclick='copyText("${item["TIN"]}")'>&#128203;</span></td>
-                    <td>${item["Inbox"]} <span class='copy-icon' onclick='copyText("${item["Inbox"]}")'>&#128203;</span></td>
-                    <td>${item["Phone Number"]} <span class='copy-icon' onclick='copyText("${item["Phone Number"]}")'>&#128203;</span></td>
                     <td>
-                        2261 Market St STE 22721, San Francisco, CA 94114 
-                        <span class="copy-icon" onclick='copyText("2261 Market St STE 22721, San Francisco, CA 94114")'>&#128203;</span>
-                    </td>
+    <a href="https://outlook.office.com/mail/${encodeURIComponent(item["Inbox"])}" target="_blank">
+        ${item["Inbox"]}
+    </a>
+    <span class='copy-icon' onclick='copyText("${item["Inbox"]}")'>&#128203;</span>
+</td>
+                    <td>${item["Phone Number"]} <span class='copy-icon' onclick='copyText("${item["Phone Number"]}")'>&#128203;</span></td>
                 </tr>`;
                 tableBody.innerHTML += row;
             });
             renderPagination();
         }
-
+    
         function renderPagination() {
             let pagination = document.getElementById("pagination");
             pagination.innerHTML = "";
             let totalPages = Math.ceil(filteredData.length / rowsPerPage);
-
+    
             for (let i = 1; i <= totalPages; i++) {
                 let button = document.createElement("button");
                 button.textContent = i;
@@ -200,21 +198,36 @@
                 pagination.appendChild(button);
             }
         }
-
+    
         function searchTable() {
-            let input = document.getElementById("searchBox").value.toLowerCase();
-            filteredData = ownerData.filter(item => item.Organization === document.getElementById("organizationDropdown").value &&
-                Object.values(item).some(val => val.toString().toLowerCase().includes(input)));
-            currentPage = 1;
-            renderTable();
-        }
+    let input = document.getElementById("searchBox").value.trim().toLowerCase();
+    let selectedOrg = document.getElementById("organizationDropdown").value;
 
+    // Split the input by spaces and filter out empty strings
+    let searchTerms = input.split(/\s+/).filter(term => term.length > 0);
+
+    // Filter data: Check if the "External Owner Name" contains both search terms
+    filteredData = ownerData.filter(item => {
+        let ownerName = item["External Owner Name"].toLowerCase(); // Get the name and convert it to lowercase
+
+        // Ensure both terms are found in the external owner name
+        let matchesSearch = searchTerms.every(term => ownerName.includes(term));
+
+        // Apply the organization filter if selected, but only check "External Owner Name"
+        return (!selectedOrg || item.Organization === selectedOrg) && matchesSearch;
+    });
+
+    currentPage = 1;
+    renderTable();
+}
+    
         function copyText(text) {
             navigator.clipboard.writeText(text).then(() => alert("Copied: " + text));
         }
-
+    
         fetchData();
     </script>
+    
 </body>
 </html>
 
