@@ -58,14 +58,28 @@
     {
         "External Owner Name": "Pagaya Smartresi F1 Fund Property Owner II, LLC",
         "TIN": "87-1070152",
-        "Inbox": "pgysmart@nutiliti.com / pgy2@nutiliti.com",
+        "Inbox": "pgysmart@nutiliti.com",
+        "Phone Number": "(713) 348-9857",
+        "Organization": "DARWIN HOMES"
+    },
+    {
+        "External Owner Name": "Pagaya Smartresi F1 Fund Property Owner II, LLC",
+        "TIN": "87-1070152",
+        "Inbox": "pgy2@nutiliti.com",
         "Phone Number": "(713) 348-9857",
         "Organization": "DARWIN HOMES"
     },
     {
         "External Owner Name": "Pagaya Smartresi F1 Fund Property Owner III, LLC",
         "TIN": "87-1500992",
-        "Inbox": "pgyiii@nutiliti.com - pgy3@nutiliti.com",
+        "Inbox": "pgy3@nutiliti.com",
+        "Phone Number": "(713) 348-9857",
+        "Organization": "DARWIN HOMES"
+    },
+    {
+        "External Owner Name": "Pagaya Smartresi F1 Fund Property Owner III, LLC",
+        "TIN": "87-1500992",
+        "Inbox": "pgy3@nutiliti.com",
         "Phone Number": "(713) 348-9857",
         "Organization": "DARWIN HOMES"
     },
@@ -93,14 +107,28 @@
     {
         "External Owner Name": "I&G SFR I Borrower LLC - BLVD",
         "TIN": "86-1933182",
-        "Inbox": "blvdig123@nutiliti.com - blvd2@nutiliti.com",
+        "Inbox": "blvd2@nutiliti.com",
+        "Phone Number": "(713) 348-9857",
+        "Organization": "DARWIN HOMES"
+    },
+    {
+        "External Owner Name": "I&G SFR I Borrower LLC - BLVD",
+        "TIN": "86-1933182",
+        "Inbox": "blvd2@nutiliti.com",
         "Phone Number": "(713) 348-9857",
         "Organization": "DARWIN HOMES"
     },
     {
         "External Owner Name": "I&G SFR II Borrower LLC - BLVD",
         "TIN": "86-1960227",
-        "Inbox": "blvdig123@nutiliti.com - igsfr@nutiliti.com",
+        "Inbox": "blvdig123@nutiliti.com",
+        "Phone Number": "(713) 348-9857",
+        "Organization": "DARWIN HOMES"
+    },
+    {
+        "External Owner Name": "I&G SFR II Borrower LLC - BLVD",
+        "TIN": "86-1960227",
+        "Inbox": "blvdig123@nutiliti.com",
         "Phone Number": "(713) 348-9857",
         "Organization": "DARWIN HOMES"
     },
@@ -789,6 +817,13 @@
         "Inbox": "atlas@nutiliti.com",
         "Phone Number": "(737) 377-4679",
         "Organization": "ATLAS"
+    },
+    {
+        "External Owner Name": "FLI WW SFR 1 LLC",
+        "TIN": "36-1063550",
+        "Inbox": "fli.sfr1@nutiliti.com",
+        "Phone Number": "(713) 348-9857",
+        "Organization": "Vantage"
     },
     {
         "External Owner Name": "Notch One LLC TN",
