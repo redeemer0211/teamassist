@@ -131,6 +131,7 @@
             <tbody id="dataTable"></tbody>
         </table>
         <div class="pagination hidden" id="pagination"></div>
+        
     </div>
 
     <script>
@@ -160,20 +161,21 @@
         }
     
         function filterByOrganization() {
-            let selectedOrg = document.getElementById("organizationDropdown").value;
-            let profile = document.getElementById("organizationProfile");
-            let table = document.getElementById("ownerTable");
-            let searchBox = document.getElementById("searchBox");
-            let pagination = document.getElementById("pagination");
+    let selectedOrg = document.getElementById("organizationDropdown").value;
+    let profile = document.getElementById("organizationProfile");
+    let table = document.getElementById("ownerTable");
+    let searchBox = document.getElementById("searchBox");
+    let pagination = document.getElementById("pagination");
+
+    // Ensure the profile and pagination sections are visible
+    profile.classList.toggle("hidden", !selectedOrg);
+    table.classList.remove("hidden");
+    searchBox.disabled = false;
+    pagination.classList.remove("hidden");
     
-            profile.classList.toggle("hidden", !selectedOrg);
-            table.classList.remove("hidden");
-            searchBox.disabled = false;
-            pagination.classList.remove("hidden");
-            document.getElementById("orgDetails").textContent = "";
-            
-            searchTable(); // Apply search filter if any input exists
-        }
+    // Apply search filter immediately when an organization is selected or changed
+    searchTable(); // Apply search filter when organization changes
+}
     
         function renderTable() {
             const tableBody = document.getElementById("dataTable");
@@ -183,6 +185,9 @@
             let paginatedData = filteredData.slice(start, end);
     
             paginatedData.forEach(item => {
+
+                
+
                 let row = `<tr>
                     <td><a href="external-owner.html?name=${encodeURIComponent(item["External Owner Name"])}}">${item["External Owner Name"]}</a></td>
                     <td>${item["TIN"]} <span class='copy-icon' onclick='copyText("${item["TIN"]}", this)'>&#128203;</span></td>
@@ -220,18 +225,24 @@
     // Split the input by spaces and filter out empty strings
     let searchTerms = input.split(/\s+/).filter(term => term.length > 0);
 
-    // Filter data: Check if the "External Owner Name" contains both search terms
+    // Filter data: Check if any field contains all search terms
     filteredData = ownerData.filter(item => {
-        let ownerName = item["External Owner Name"].toLowerCase(); // Get the name and convert it to lowercase
+        // Convert fields to lowercase to allow case-insensitive searching
+        let ownerName = item["External Owner Name"].toLowerCase();
+        let tin = item["TIN"].toLowerCase();
+        let phone = item["Phone Number"].toLowerCase();
+        let inbox = item["Inbox"].toLowerCase();
 
-        // Ensure both terms are found in the external owner name
-        let matchesSearch = searchTerms.every(term => ownerName.includes(term));
+        // Check if all search terms are found in any field
+        let matchesSearch = searchTerms.every(term => {
+            return ownerName.includes(term) || tin.includes(term) || phone.includes(term) || inbox.includes(term);
+        });
 
-        // Apply the organization filter if selected, but only check "External Owner Name"
+        // Apply the organization filter if selected
         return (!selectedOrg || item.Organization === selectedOrg) && matchesSearch;
     });
 
-    currentPage = 1;
+    currentPage = 1; // Reset to the first page when searching
     renderTable();
 }
     

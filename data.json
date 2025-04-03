@@ -1,6 +1,13 @@
 [
     {
         "External Owner Name": "Ameriprop SFR Property Owner II, LLC",
+        "TIN": "33-3018072",
+        "Inbox": "rcaz@nutiliti.com",
+        "Phone Number": "(713) 348-9857",
+        "Organization": "DARWIN HOMES"
+    },
+    {
+        "External Owner Name": "RCAZ LLC",
         "TIN": "88-4056077",
         "Inbox": "ameriprop2@nutiliti.com",
         "Phone Number": "(713) 348-9857",
@@ -16,7 +23,21 @@
     {
         "External Owner Name": "Commercial Acquisitions, LLC",
         "TIN": "32-0768916",
-        "Inbox": "CALLC@nutiliti.com - callc2@nutiliti.com - callc3@nutiliti.com",
+        "Inbox": "CALLC@nutiliti.com",
+        "Phone Number": "(713) 348-9857",
+        "Organization": "DARWIN HOMES"
+    },
+    {
+        "External Owner Name": "Commercial Acquisitions, LLC",
+        "TIN": "32-0768916",
+        "Inbox":"callc2@nutiliti.com",
+        "Phone Number": "(713) 348-9857",
+        "Organization": "DARWIN HOMES"
+    },
+    {
+        "External Owner Name": "Commercial Acquisitions, LLC",
+        "TIN": "32-0768916",
+        "Inbox":  "callc3@nutiliti.com",
         "Phone Number": "(713) 348-9857",
         "Organization": "DARWIN HOMES"
     },
@@ -93,7 +114,21 @@
     {
         "External Owner Name": "LPF BLVD Venture, LLC // (Any BLVD state)",
         "TIN": "87-3400830",
-        "Inbox": "blvdoperating@nutiliti.com - blvdoperating2@nutiliti.com - blvdoperating3@nutiliti.com",
+        "Inbox": "blvdoperating@nutiliti.com",
+        "Phone Number": "(713) 348-9857",
+        "Organization": "DARWIN HOMES"
+    },
+    {
+        "External Owner Name": "LPF BLVD Venture, LLC // (Any BLVD state)",
+        "TIN": "87-3400830",
+        "Inbox": "blvdoperating2@nutiliti.com",
+        "Phone Number": "(713) 348-9857",
+        "Organization": "DARWIN HOMES"
+    },
+    {
+        "External Owner Name": "LPF BLVD Venture, LLC // (Any BLVD state)",
+        "TIN": "87-3400830",
+        "Inbox": "blvdoperating3@nutiliti.com",
         "Phone Number": "(713) 348-9857",
         "Organization": "DARWIN HOMES"
     },
@@ -128,7 +163,14 @@
     {
         "External Owner Name": "MCH SFR PROPERTY OWNER 1 LLC",
         "TIN": "86-3684332",
-        "Inbox": "MCH1LLC@nutiliti.onmicrosoft.com / MCH1LLC@nutiliti.com",
+        "Inbox": "MCH1LLC@nutiliti.onmicrosoft.com",
+        "Phone Number": "(713) 348-9857",
+        "Organization": "DARWIN HOMES"
+    },
+    {
+        "External Owner Name": "MCH SFR PROPERTY OWNER 1 LLC",
+        "TIN": "86-3684332",
+        "Inbox": "MCH1LLC@nutiliti.com",
         "Phone Number": "(713) 348-9857",
         "Organization": "DARWIN HOMES"
     },
@@ -177,7 +219,14 @@
     {
         "External Owner Name": "Faraway SG LLC",
         "TIN": "93-4073150",
-        "Inbox": "faraway@nutiliti.com - faraway2@nutiliti.com",
+        "Inbox": "faraway@nutiliti.com faraway2@nutiliti.com",
+        "Phone Number": "(713) 348-9857",
+        "Organization": "DARWIN HOMES"
+    },
+    {
+        "External Owner Name": "Faraway SG LLC",
+        "TIN": "93-4073150",
+        "Inbox": "faraway2@nutiliti.com",
         "Phone Number": "(713) 348-9857",
         "Organization": "DARWIN HOMES"
     },
@@ -282,7 +331,14 @@
     {
         "External Owner Name": "Central Georgia Realty LLC",
         "TIN": "26-3090562",
-        "Inbox": "revolution@nutiliti.com - revolution2@nutiliti.com",
+        "Inbox": "revolution@nutiliti.com",
+        "Phone Number": "(832) 925-3439",
+        "Organization": "BUILDIUM"
+    },
+    {
+        "External Owner Name": "Central Georgia Realty LLC",
+        "TIN": "26-3090562",
+        "Inbox": "revolution2@nutiliti.com",
         "Phone Number": "(832) 925-3439",
         "Organization": "BUILDIUM"
     },
@@ -296,7 +352,21 @@
     {
         "External Owner Name": "HighLine Storage",
         "TIN": "different TAX ID/SSN for unit",
-        "Inbox": "highline@nutiliti.com - highline1@nutiliti.com - highline2@nutiliti.com",
+        "Inbox": "highline@nutiliti.com",
+        "Phone Number": "(832) 925-3439",
+        "Organization": "BUILDIUM"
+    },
+    {
+        "External Owner Name": "HighLine Storage",
+        "TIN": "different TAX ID/SSN for unit",
+        "Inbox": "highline1@nutiliti.com",
+        "Phone Number": "(832) 925-3439",
+        "Organization": "BUILDIUM"
+    },
+    {
+        "External Owner Name": "HighLine Storage",
+        "TIN": "different TAX ID/SSN for unit",
+        "Inbox": "highline2@nutiliti.com",
         "Phone Number": "(832) 925-3439",
         "Organization": "BUILDIUM"
     },
@@ -331,7 +401,14 @@
     {
         "External Owner Name": "Bridge Tower Homes LLC",
         "TIN": "83-4094466",
-        "Inbox": "bridgetower@nutiliti.com / bt.homes@nutiliti.com",
+        "Inbox": "bridgetower@nutiliti.com",
+        "Phone Number": "(832) 925 3439",
+        "Organization": "BUILDIUM"
+    },
+    {
+        "External Owner Name": "Bridge Tower Homes LLC",
+        "TIN": "83-4094466",
+        "Inbox": "bt.homes@nutiliti.com",
         "Phone Number": "(832) 925 3439",
         "Organization": "BUILDIUM"
     },
@@ -513,7 +590,14 @@
     {
         "External Owner Name": "Doorvest Holdings I LLC",
         "TIN": "86-2954672",
-        "Inbox": "doorvest.illc@nutiliti.com - doorvest.holdings@nutiliti.com",
+        "Inbox": "doorvest.illc@nutiliti.com",
+        "Phone Number": "(832) 925-3439",
+        "Organization": "BUILDIUM"
+    },
+    {
+        "External Owner Name": "Doorvest Holdings I LLC",
+        "TIN": "86-2954672",
+        "Inbox": "doorvest.holdings@nutiliti.com",
         "Phone Number": "(832) 925-3439",
         "Organization": "BUILDIUM"
     },
