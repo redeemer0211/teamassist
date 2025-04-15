@@ -190,6 +190,7 @@
 
                 let row = `<tr>
                     <td><a href="external-owner.html?name=${encodeURIComponent(item["External Owner Name"])}}">${item["External Owner Name"]}</a></td>
+                    <span class='copy-icon' onclick='copyText("${item["External Owner Name"]}", this)'>&#128203;</span>
                     <td>${item["TIN"]} <span class='copy-icon' onclick='copyText("${item["TIN"]}", this)'>&#128203;</span></td>
                     <td>
     <a href="https://outlook.office.com/mail/${encodeURIComponent(item["Inbox"])}" target="_blank">
