@@ -28,52 +28,57 @@
         .profile {
             margin-left: -10px;
         }
-
-        
     </style>
 </head>
 <body>
     <div class="container">
         <h2>External Owner Profile</h2>
+        <div class="profile" id="profileSection">
+            <p><strong>Name:</strong> <span id="ownerName"></span></p> 
+            <p><strong>TIN:</strong> <span id="ownerTIN"></span></p>
+            <p><strong>Inbox:</strong> <span id="ownerInbox"></span></p>
+            <p><strong>Phone Number:</strong> <span id="ownerPhone"></span></p>
+            <p><strong>Mailing Address:</strong> <span id="ownerAddress">2261 Market St STE 22721, San Francisco, CA 94114</span></p>
+            <a href="index.html" class="back-link">← Back to List</a>
         </div>
-<div class="container">
-        <div class="profile">
-        <p><strong>Name:</strong><span id="ownerName"></span></p> 
-        <p><strong>TIN:</strong><span id="ownerTIN"></span></p>
-        <p><strong>Inbox:</strong><span id="ownerInbox"></span></p>
-        <p><strong>Phone Number:</strong><span id="ownerPhone"></span></p>
-        <p><strong>Mailing Address:<p>2261 Market St STE 22721, San Francisco, CA 94114</p></strong> 
-        <a href="index.html" class="back-link">← Back to List</a>
-        </div>
+    </div>
 
     <script>
-        // Extract the external owner name from URL
         const urlParams = new URLSearchParams(window.location.search);
-        const ownerName = urlParams.get("name");
-
-        document.getElementById("ownerName").textContent = ownerName;
-
-        // Fetch data from JSON and filter the specific external owner
-        async function fetchOwnerData() {
-            try {
-                const response = await fetch("data.json");
-                const data = await response.json();
-
-                const ownerData = data.find(item => item["External Owner Name"] === ownerName);
-
-                if (ownerData) {
-                    document.getElementById("ownerTIN").textContent = ownerData["TIN"];
-                    document.getElementById("ownerInbox").textContent = ownerData["Inbox"];
-                    document.getElementById("ownerPhone").textContent = ownerData["Phone Number"];
-                } else {
-                    document.querySelector(".container").innerHTML = "<h2>Owner Not Found</h2>";
-                }
-            } catch (error) {
-                console.error("Error loading owner data:", error);
-            }
+        let ownerName = urlParams.get("name");
+    
+        // Clean the name (removes trailing } or ] and trims spaces)
+        if (ownerName) {
+            ownerName = ownerName.trim().replace(/[\}\]]+$/, "");
         }
-
-        fetchOwnerData();
+    
+        if (!ownerName) {
+            document.getElementById("profileSection").innerHTML = "<p>No owner specified in the URL.</p>";
+        } else {
+            document.getElementById("ownerName").textContent = ownerName;
+    
+            async function fetchOwnerData() {
+                try {
+                    const response = await fetch("data.json");
+                    const data = await response.json();
+    
+                    const ownerData = data.find(item => item["External Owner Name"] === ownerName);
+    
+                    if (ownerData) {
+                        document.getElementById("ownerTIN").textContent = ownerData["TIN"] || "N/A";
+                        document.getElementById("ownerInbox").textContent = ownerData["Inbox"] || "N/A";
+                        document.getElementById("ownerPhone").textContent = ownerData["Phone Number"] || "N/A";
+                    } else {
+                        document.getElementById("profileSection").innerHTML = "<p>Owner not found.</p>";
+                    }
+                } catch (error) {
+                    console.error("Error loading owner data:", error);
+                    document.getElementById("profileSection").innerHTML = "<p>Error loading data.</p>";
+                }
+            }
+    
+            fetchOwnerData();
+        }
     </script>
 </body>
 </html>

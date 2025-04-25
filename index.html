@@ -126,6 +126,9 @@
                     <th>TIN</th>
                     <th>Inbox</th>
                     <th>Phone Number</th>
+                    <th>W9</th>
+                    <th>LOA</th>
+                    <th>S4</th>
                 </tr>
             </thead>
             <tbody id="dataTable"></tbody>
@@ -189,8 +192,7 @@
                 
 
                 let row = `<tr>
-                    <td><a href="external-owner.html?name=${encodeURIComponent(item["External Owner Name"])}}">${item["External Owner Name"]}</a></td>
-                    <span class='copy-icon' onclick='copyText("${item["External Owner Name"]}", this)'>&#128203;</span>
+                    <td><a href="external-owner.html?name=${encodeURIComponent(item["External Owner Name"])}}">${item["External Owner Name"]}</a> <span class='copy-icon' onclick='copyText("${item["External Owner Name"]}", this)'>&#128203;</span></td>
                     <td>${item["TIN"]} <span class='copy-icon' onclick='copyText("${item["TIN"]}", this)'>&#128203;</span></td>
                     <td>
     <a href="https://outlook.office.com/mail/${encodeURIComponent(item["Inbox"])}" target="_blank">
