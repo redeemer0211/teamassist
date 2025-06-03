@@ -223,31 +223,33 @@ function filterByOrganization() {
             }
         }
     
-        function searchTable() {
+function searchTable() {
     let input = document.getElementById("searchBox").value.trim().toLowerCase();
-    let selectedOrg = document.getElementById("organizationDropdown").value;
 
-    // Split the input by spaces and filter out empty strings
+    // Don't search if no org is selected
+    let selectedOrg = document.getElementById("organizationDropdown").value;
+    if (!selectedOrg) return;
+
+    // Split search into multiple terms
     let searchTerms = input.split(/\s+/).filter(term => term.length > 0);
 
-    // Filter data: Check if any field contains all search terms
+    // Re-filter based on org (base) + search
     filteredData = ownerData.filter(item => {
-        // Convert fields to lowercase to allow case-insensitive searching
-        let ownerName = item["External Owner Name"].toLowerCase();
-        let tin = item["TIN"].toLowerCase();
-        let phone = item["Phone Number"].toLowerCase();
-        let inbox = item["Inbox"].toLowerCase();
+        if (item.Organization !== selectedOrg) return false;
 
-        // Check if all search terms are found in any field
-        let matchesSearch = searchTerms.every(term => {
-            return ownerName.includes(term) || tin.includes(term) || phone.includes(term) || inbox.includes(term);
-        });
+        let values = [
+            item["External Owner Name"]?.toLowerCase() || '',
+            item["TIN"]?.toLowerCase() || '',
+            item["Phone Number"]?.toLowerCase() || '',
+            item["Inbox"]?.toLowerCase() || ''
+        ];
 
-        // Apply the organization filter if selected
-        return (!selectedOrg || item.Organization === selectedOrg) && matchesSearch;
+        return searchTerms.every(term =>
+            values.some(field => field.includes(term))
+        );
     });
 
-    currentPage = 1; // Reset to the first page when searching
+    currentPage = 1;
     renderTable();
 }
     
