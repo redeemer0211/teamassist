@@ -50,6 +50,16 @@
       color: #2c3e50;
     }
 
+    .footer button {
+    font-size: 20px;
+      font-weight: 300;
+      padding: 10px;
+      color: white;
+      margin-left: -92%;
+      background-color: #7e6ab6;
+      border-radius: 8px;
+    }
+
     main {
       display: flex;
       flex: 1;
@@ -98,6 +108,19 @@
       padding: 20px;
       box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06);
       min-width: 1000px;
+    }
+
+    .content1 button {
+    font-size: 12px;
+      font-weight: 100;
+      padding: 10px;
+      color: white;
+      right: auto;
+      background-color: #7e6ab6;
+      border-radius: 8px;
+      margin-left: 8%;
+      width: 10%;
+      align-items: flex;
     }
 
     .content h2 {
@@ -173,7 +196,14 @@
       display: none;
     }
 
-
+.inputRender {
+    padding: 10px;
+      margin: 10px 0;
+      width: 80%;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+}
 
 iframe {
   flex: 1;
@@ -202,7 +232,8 @@ iframe {
   <div class="header-column">
     <h1>External Owner Info</h1>
   </div>
-  <div class="header-column"></div>
+  <div class="header-column">
+  </div>
 </header>
 
 <main>
@@ -211,16 +242,12 @@ iframe {
     <a href="https:///app.clickup.com/" target="_blank" rel="noopener noreferrer">ClickUp</a>
     <a href="https://my.openphone.com/" target="_blank" rel="noopener noreferrer">Openphone</a>
     <a href="msteams:" onclick="setTimeout(() => { window.open('https://teams.microsoft.com', '_blank'); }, 500);" title="Open Microsoft Teams App">Microsoft Teams</a>
-   <input type="text" id="iframeInput" placeholder="Enter URL to render" />
-    <button onclick="renderIframe()">Render</button>
-
-<button class="toggle-left-panel" onclick="toggleLeftPanel()">Hide Menu</button>
-<p>DO NOT USE THE HIDE MENU</p>
   </div>
 
 
 <div class="content1">
-    
+       <input class="inputRender" id="iframeInput" placeholder="Enter URL to render" />
+    <button onclick="renderIframe()">Render</button>
      <iframe id="renderedIframe"></iframe>
      
 </div>
@@ -252,8 +279,8 @@ iframe {
   </div>
 </main>
 
-<footer>
-  &copy; 2025 External Owner Info Tool
+<footer class="footer">
+<button class="toggle-left-panel" onclick="toggleLeftPanel()">Toggle Left Panel</button>
 </footer>
 
 <script>
