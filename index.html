@@ -1,144 +1,263 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>External Owner Info</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            text-align: center;
-        }
-        .container {
-            width: 90%;
-            margin: 20px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            overflow-x: auto;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>External Owner Info</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
 
-        .header {
-            width: 90%;
-            margin: 20px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            overflow-x: auto;
-            background-color: #d0d1f1;
-            color: white;
-        }
-        .hidden { 
-            display: none;
-         }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #f5f6fa;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: #333;
+    }
 
-         .select {
-            margin-top: 2px;
-            margin-bottom: 20px;
-         }
-        .organizationDropdown {
-    width: 30%; /* Adjust dropdown width */
-    height: 40px; /* Adjust height */
-    padding: 10px;
-    margin-left: -20%;
-    margin-right: 15%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    display: inline-block;
-    align-items: left;
-            
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      height: 80px;
+      padding: 0 20px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .header-column {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-column:first-child {
+      justify-content: flex-start;
+    }
+
+    .header-column img {
+      height: 50px;
+    }
+
+    .header-column h1 {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0;
+      color: #2c3e50;
+    }
+
+    main {
+      display: flex;
+      flex: 1;
+      margin: 20px;
+      gap: 20px;
+    }
+
+    .left-panel {
+      width: 200px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .left-panel a {
+      text-decoration: none;
+      color: #2c3e50;
+      background: #ffffff;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      transition: background 0.2s ease;
+    }
+
+    .left-panel a:hover {
+      background-color: #ecf0f1;
+    }
+
+
+    .content1.expanded {
+        width: 100%;
+    }
+
+    .content {
+      flex: 1;
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06);
+    }
+
+     .content1 {
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06);
+      min-width: 1000px;
+    }
+
+    .content h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    select, input[type="text"] {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #e0e0e0;
+      text-align: left;
+      padding: 12px;
+      font-size: 14px;
+    }
+
+    th {
+      background-color: #f1f3f5;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .copy-icon {
+      cursor: pointer;
+      margin-left: 8px;
+      color: #999;
+      transition: color 0.2s;
+    }
+
+    .copy-icon:hover {
+      color: #2c3e50;
+    }
+
+    .pagination {
+      margin-top: 20px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pagination button {
+      padding: 6px 12px;
+      border: none;
+      background-color: #ecf0f1;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .pagination button.active {
+      background-color: #3498db;
+      color: white;
+      font-weight: bold;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+
+
+iframe {
+  flex: 1;
+  min-width: 1000px;
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
-.searchBox {
-    width: 50%; /* Adjust search bar width */
-    height: 20px; /* Keep height consistent */
-    padding: 10px;
-    margin-right: -20%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    display: inline-block
-}
-
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        th, td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: left;
-            position: relative;
-        }
-        th { background: #d0d1f1; color: white; }
-
-        .pagination {
-            margin-top: 10px;
-        }
-        .pagination button {
-            padding: 5px 10px;
-            margin: 2px;
-            cursor: pointer;
-        }
-
-        .copy-icon {
-    font-size: 20px; /* Size of the icon */
-    cursor: pointer;
-    transition: all 0.3s ease; /* Smooth transition for changes */
-}
-
-.copy-icon:hover {
-    color: #007bff; /* Color change on hover */
-}
-
-    </style>
+    footer {
+      background-color: #ffffff;
+      padding: 15px 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #777;
+      box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.05);
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <h2>External Owner Info</h2>
-    </div>
-    <div class="container">
-        <select id="organizationDropdown" class="organizationDropdown" onchange="filterByOrganization()">
-            <option value="" disabled selected>Select an Organization</option>
-        </select>
-        <!-- Input search box -->
-<input type="text" id="searchBox" class="searchBox" placeholder="Search..." onkeyup="searchTable()">
 
-    </div>
-    <div class="container">
+<header>
+  <div class="header-column">
+    <img src="./brand/nutiliti.svg" alt="Brand Logo">
+  </div>
+  <div class="header-column">
+    <h1>External Owner Info</h1>
+  </div>
+  <div class="header-column"></div>
+</header>
 
-        <div id="organizationProfile" class="select">
-            <p id="orgDetails"></p>
-        </div>
-        <div class="container items-center flex space-x-2">
-            <span id="mail">Mailing Address: 2261 Market St STE 22721, San Francisco, CA 94114</span>
-            <span class='copy-icon' onclick='copyText("2261 Market St STE 22721, San Francisco, CA 94114", this)'>&#128203;</span>
-        </div>
-        
-        <table id="ownerTable" class="hidden">
-            <thead>
-                <tr>
-                    <th>External Owner Name</th>
-                    <th>TIN</th>
-                    <th>Inbox</th>
-                    <th>Phone Number</th>
-                    <th>W9</th>
-                    <th>LOA</th>
-                    <th>S4</th>
-                </tr>
-            </thead>
-            <tbody id="dataTable"></tbody>
-        </table>
-        <div class="pagination hidden" id="pagination"></div>
-        
+<main>
+  <div class="left-panel" id="leftPanel">
+    <a href="https://app.nutiliti.com/" target="_blank" rel="noopener noreferrer">Admin Portal</a>
+    <a href="https:///app.clickup.com/" target="_blank" rel="noopener noreferrer">ClickUp</a>
+    <a href="https://my.openphone.com/" target="_blank" rel="noopener noreferrer">Openphone</a>
+    <a href="msteams:" onclick="setTimeout(() => { window.open('https://teams.microsoft.com', '_blank'); }, 500);" title="Open Microsoft Teams App">Microsoft Teams</a>
+   <input type="text" id="iframeInput" placeholder="Enter URL to render" />
+    <button onclick="renderIframe()">Render</button>
+
+<button class="toggle-left-panel" onclick="toggleLeftPanel()">Hide Menu</button>
+<p>DO NOT USE THE HIDE MENU</p>
+  </div>
+
+
+<div class="content1">
+    
+     <iframe id="renderedIframe"></iframe>
+     
+</div>
+
+  <div class="content">
+    <select id="organizationDropdown" onchange="filterByOrganization()">
+      <option value="" disabled selected>Select an Organization</option>
+    </select>
+
+    <input type="text" id="searchBox" placeholder="Search..." onkeyup="searchTable()" disabled />
+
+    <div id="organizationProfile" class="organizationProfile hidden">
+      <p id="orgDetails"></p>
     </div>
 
-    <script>
-        let ownerData = [], filteredData = [], currentPage = 1, rowsPerPage = 7;
+    <table id="ownerTable" class="hidden">
+      <thead>
+        <tr>
+          <th>External Owner Name</th>
+          <th>TIN</th>
+          <th>Inbox</th>
+          <th>Phone Number</th>
+        </tr>
+      </thead>
+      <tbody id="dataTable"></tbody>
+    </table>
+
+    <div id="pagination" class="pagination hidden"></div>
+  </div>
+</main>
+
+<footer>
+  &copy; 2025 External Owner Info Tool
+</footer>
+
+<script>
+let ownerData = [], filteredData = [], currentPage = 1, rowsPerPage = 15;
     
         async function fetchData() {
             try {
@@ -190,9 +309,6 @@ function filterByOrganization() {
             let paginatedData = filteredData.slice(start, end);
     
             paginatedData.forEach(item => {
-
-                
-
                 let row = `<tr>
                     <td><a href="external-owner.html?name=${encodeURIComponent(item["External Owner Name"])}}">${item["External Owner Name"]}</a> <span class='copy-icon' onclick='copyText("${item["External Owner Name"]}", this)'>&#128203;</span></td>
                     <td>${item["TIN"]} <span class='copy-icon' onclick='copyText("${item["TIN"]}", this)'>&#128203;</span></td>
@@ -272,8 +388,27 @@ function copyText(text, iconElement) {
 }
     
         fetchData();
-    </script>
-    
+
+   function renderIframe() {
+      const url = document.getElementById('iframeInput').value;
+      if (url) {
+        const formattedUrl = url.startsWith('http://') || url.startsWith('https://') ? url : 'https://' + url;
+        document.getElementById('renderedIframe').src = formattedUrl;
+      }
+    }
+
+    function toggleLeftPanel() {
+      const panel = document.getElementById('leftPanel');
+      panel.style.display = panel.style.display === 'none' ? 'flex' : 'none';
+    }
+
+  function renderIframe() {
+    const url = document.getElementById('iframeInput').value;
+    if (url) {
+      document.getElementById('renderedIframe').src = url;
+    }
+  }
+</script>
 </body>
 </html>
 
