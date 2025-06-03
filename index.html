@@ -242,7 +242,9 @@ iframe {
     <a href="https:///app.clickup.com/" target="_blank" rel="noopener noreferrer">ClickUp</a>
     <a href="https://my.openphone.com/" target="_blank" rel="noopener noreferrer">Openphone</a>
     <a href="msteams:" onclick="setTimeout(() => { window.open('https://teams.microsoft.com', '_blank'); }, 500);" title="Open Microsoft Teams App">Microsoft Teams</a>
-  </div>
+    <input type="text" id="phoneInput" placeholder="Enter phone number" />
+    <button onclick="callWithOpenPhone()">Call with OpenPhone</button>
+</div>
 
 
 <div class="content1">
@@ -435,6 +437,13 @@ function copyText(text, iconElement) {
       document.getElementById('renderedIframe').src = url;
     }
   }
+
+  function callWithOpenPhone() {
+  const number = document.getElementById("phoneInput").value;
+  if (number) {
+    window.location.href = `openphone://call?number=${encodeURIComponent(number)}`;
+  }
+}
 </script>
 </body>
 </html>
