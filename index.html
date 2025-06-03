@@ -163,21 +163,23 @@
             });
         }
     
-        function filterByOrganization() {
+function filterByOrganization() {
     let selectedOrg = document.getElementById("organizationDropdown").value;
     let profile = document.getElementById("organizationProfile");
     let table = document.getElementById("ownerTable");
     let searchBox = document.getElementById("searchBox");
     let pagination = document.getElementById("pagination");
 
-    // Ensure the profile and pagination sections are visible
     profile.classList.toggle("hidden", !selectedOrg);
     table.classList.remove("hidden");
     searchBox.disabled = false;
     pagination.classList.remove("hidden");
-    
-    // Apply search filter immediately when an organization is selected or changed
-    searchTable(); // Apply search filter when organization changes
+
+    // Apply filtering by selected organization only
+    filteredData = ownerData.filter(item => item.Organization === selectedOrg);
+
+    currentPage = 1;
+    renderTable();
 }
     
         function renderTable() {
